@@ -6,7 +6,6 @@ pipeline {
             steps {
                 script {
                     echo 'Building the code...'
-                    // Example: sh 'mvn clean package'
                 }
             }
         }
@@ -14,7 +13,6 @@ pipeline {
             steps {
                 script {
                     echo 'Running unit and integration tests...'
-                    // Example: sh 'mvn test'
                 }
             }
         }
@@ -22,7 +20,6 @@ pipeline {
             steps {
                 script {
                     echo 'Analyzing the code...'
-                    // Example: sh 'sonar-scanner'
                 }
             }
         }
@@ -30,7 +27,6 @@ pipeline {
             steps {
                 script {
                     echo 'Performing security scan...'
-                    // Example: sh 'dependency-check.sh --project project-name'
                 }
             }
         }
@@ -38,7 +34,6 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to staging...'
-                    // Example: sh 'scp target/app.war user@staging-server:/path/to/deploy'
                 }
             }
         }
@@ -46,7 +41,6 @@ pipeline {
             steps {
                 script {
                     echo 'Running integration tests on staging...'
-                    // Example: sh 'run-staging-tests.sh'
                 }
             }
         }
@@ -54,7 +48,6 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to production...'
-                    // Example: sh 'scp target/app.war user@production-server:/path/to/deploy'
                 }
             }
         }
@@ -63,13 +56,13 @@ pipeline {
         success {
             emailext subject: "Pipeline Succeeded: ${currentBuild.fullDisplayName}",
                       body: "Pipeline ${currentBuild.fullDisplayName} succeeded",
-                      to: 'your-email@example.com',
+                      to: 'danielandrews8607@gmail.com',
                       attachLog: true
         }
         failure {
             emailext subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
                       body: "Pipeline ${currentBuild.fullDisplayName} failed. Please check the logs.",
-                      to: 'your-email@example.com',
+                      to: 'danielandrews8607@gmail.com',
                       attachLog: true
         }
     }
