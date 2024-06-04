@@ -4,66 +4,89 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    echo 'Building the code...'
-                }
+                echo "Step 1: Compiling the code using a build automation tool (Maven)"
             }
         }
+        
         stage('Unit and Integration Tests') {
             steps {
-                script {
-                    echo 'Running unit and integration tests...'
+                echo "Step 2: Executing unit and integration tests"
+            }
+            post {
+                always {
+                    script {
+                        emailext(
+                            to: 'danielandrews8607@gmail.com',
+                            subject: "Pipeline Unit and Integration Tests: ${currentBuild.currentResult}",
+                            body: "The Jenkins pipeline has completed the Unit and Integration Tests stage with status: ${currentBuild.currentResult}.",
+                            attachLog: true
+                        )
+                    }
                 }
             }
         }
+
         stage('Code Analysis') {
             steps {
-                script {
-                    echo 'Analyzing the code...'
-                }
+                echo "Step 3: Performing code analysis using a code quality tool (SonarQube)"
             }
         }
+
         stage('Security Scan') {
             steps {
-                script {
-                    echo 'Performing security scan...'
+                echo "Step 4: Conducting a security scan using a security analysis tool (OWASP ZAP)"
+            }
+            post {
+                always {
+                    script {
+                        emailext(
+                            to: 'danielandrews8607@gmail.com',
+                            subject: "Pipeline Security Scan: ${currentBuild.currentResult}",
+                            body: "The Jenkins pipeline has completed the Security Scan stage with status: ${currentBuild.currentResult}.",
+                            attachLog: true
+                        )
+                    }
                 }
             }
         }
+
         stage('Deploy to Staging') {
             steps {
-                script {
-                    echo 'Deploying to staging...'
-                }
+                echo "Step 5: Deploying the application to a staging server (AWS EC2)"
             }
         }
+
         stage('Integration Tests on Staging') {
             steps {
-                script {
-                    echo 'Running integration tests on staging...'
-                }
+                echo "Step 6: Running integration tests on the staging environment"
             }
         }
+
         stage('Deploy to Production') {
             steps {
-                script {
-                    echo 'Deploying to production...'
-                }
+                echo "Step 7: Deploying the application to a production server (AWS EC2)"
             }
         }
     }
+
     post {
         success {
-            emailext subject: "Pipeline Succeeded: ${currentBuild.fullDisplayName}",
-                      body: "Pipeline ${currentBuild.fullDisplayName} succeeded",
-                      to: 'danielandrews8607@gmail.com',
-                      attachLog: true
+            echo "Pipeline succeeded!"
+            emailext(
+                to: 'danielandrews8607@gmail.com',
+                subject: "Pipeline Status: Success",
+                body: "The Jenkins pipeline has completed successfully.",
+                attachLog: true
+            )
         }
         failure {
-            emailext subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
-                      body: "Pipeline ${currentBuild.fullDisplayName} failed. Please check the logs.",
-                      to: 'danielandrews8607@gmail.com',
-                      attachLog: true
+            echo "Pipeline failed!"
+            emailext(
+                to: 'danielandrews8607@gmail.com',
+                subject: "Pipeline Status: Failure",
+                body: "The Jenkins pipeline has failed. Please check the logs for details.",
+                attachLog: true
+            )
         }
     }
 }
